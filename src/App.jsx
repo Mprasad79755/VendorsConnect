@@ -6,6 +6,8 @@ import PrivateRoute from "./PrivateRoute";
 import { Link } from "react-router-dom";
 import Login from './authentication/Login'
 import Signup from './authentication/Signup';
+import ForgotPassword from './authentication/ForgotPassword';
+import AddProduct from './vendors/AddProduct'
 
 
 function App() {
@@ -24,6 +26,10 @@ function App() {
     {/*paths*/}
     <Route  path="/login" element={<Login/>} />
     <Route  path="/signup" element={<Signup/>} />
+    <Route  path="/forgot-password" element={<ForgotPassword/>} />
+    <Route  path="/add-prod" element={<AddProduct/>} />
+
+
 
 
     </Routes>

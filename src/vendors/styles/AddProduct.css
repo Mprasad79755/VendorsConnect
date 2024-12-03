@@ -1,0 +1,118 @@
+/* Ensure full height for the page */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Ensure the container takes full height and is scrollable */
+  .product-manager-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #fff;
+    position: relative;
+    height: 100%; /* Full height */
+  }
+  
+  /* Title and Header */
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    color: #32cd32;
+    margin-bottom: 20px;
+  }
+  
+  /* Product List - make it scrollable */
+  .product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    overflow-y: auto; /* Allow scrolling */
+    flex-grow: 1; /* Take up available space */
+    max-height: 70vh; /* Limit height */
+  }
+  
+  /* Product Cards styling */
+  .product-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .product-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .product-details {
+    padding: 15px;
+  }
+  
+  .product-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  
+  /* Floating action button styling */
+  .btn-floating {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #32cd32;
+    color: white;
+    font-size: 24px;
+    padding: 15px;
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Form Popup styling */
+  .form-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    overflow-y: auto; /* Allows scrolling within the form */
+  }
+  
+  .form-card {
+    background-color: #fff;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 600px;
+    padding: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #333;
+  }
+  

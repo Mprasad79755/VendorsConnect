@@ -9,32 +9,41 @@ import "./Signup.css";
 const Signup = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({
-    username: "",
+    fullname: "",
     email: "",
+    phonenumber: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false); // State to toggle spinner
 
   const inputs = [
     {
-      name: "username",
-      placeholder: "Your Full Name",
+      name: "fullname",
+      placeholder: "Enter Your Full Name",
       type: "text",
       validate: (value) => value.trim() !== "",
       error: "Name cannot be empty.",
     },
     {
       name: "email",
-      placeholder: "Email Address",
+      placeholder: "Enter Your Email Address",
       type: "email",
       validate: (value) => /\S+@\S+\.\S+/.test(value),
       error: "Enter a valid email address.",
+    },
+    {
+      name: "phonenumber",
+      placeholder: "Enter Your Mobile Number",
+      type: "text",
+      validate: (value) => /^[0-9]{10}$/.test(value),
+      error: "Enter a valid 10-digit mobile number.",
     },
     {
       name: "password",
       placeholder: "Create Password",
       type: "password",
       validate: (value) => value.length >= 6,
-      error: "Password must be at least 6 characters.",
+      error: "Password must be at least 6 characters long.",
     },
   ];
 
@@ -61,8 +70,9 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start spinner
     try {
-      const { email, password, username } = formData;
+      const { email, password, fullname, phonenumber } = formData;
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -72,24 +82,33 @@ const Signup = () => {
 
       // Save additional user data to Firestore
       await setDoc(doc(db, "users", userId), {
-        username,
+        fullname,
         email,
+        phonenumber,
         createdAt: new Date(),
       });
 
       toast.success("Account created successfully!");
-      setFormData({ username: "", email: "", password: "" });
+      setFormData({ fullname: "", email: "", phonenumber: "", password: "" });
       setCurrentStep(0);
     } catch (error) {
       toast.error(`Error: ${error.message}`);
+    } finally {
+      setLoading(false); // Stop spinner
     }
   };
 
   return (
     <div className="signup-container">
+      <h1>
+        Welcome to <span>GroceryApp</span>
+      </h1>
+
       <ToastContainer position="top-center" autoClose={3000} />
       <div className="signup-card">
-        <h1>Welcome to <span>GroceryApp</span></h1>
+        <h1>
+          <span>Create a New Account</span>
+        </h1>
         <form onSubmit={handleSubmit}>
           <div className="input-wrapper">
             <input
@@ -121,8 +140,16 @@ const Signup = () => {
                 Next &#8594;
               </button>
             ) : (
-              <button type="submit" className="submit-btn">
-                Register
+              <button
+                type="submit"
+                className="submit-btn"
+                disabled={loading} // Disable button while loading
+              >
+                {loading ? (
+                  <span className="spinner"></span>
+                ) : (
+                  "Register"
+                )}
               </button>
             )}
           </div>
