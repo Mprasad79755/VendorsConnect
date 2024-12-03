@@ -17,7 +17,8 @@ function App() {
     <Route element={<><PrivateRoute/></>}>
     <Route   path="/admin" element={<Login/>} exact/> 
     </Route>
-  
+    
+    {/* add your paths here */}
     <Route  path="/lo" element={<Login></Login>} />
 
     
