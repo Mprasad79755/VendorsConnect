@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import "./LoginPage1.css"; // CSS file for styles
+import "./LoginPage1.css";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -7,24 +11,40 @@ const LoginPage = () => {
     password: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Login Successful!");
+    setLoading(true);
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+      toast.success("Welcome back! Login Successful!");
+      console.log("User Info:", userCredential.user);
+    } catch (error) {
+      toast.error(`Login Failed: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="login-container">
+      <ToastContainer position="top-center" autoClose={3000} />
       <div className="login-card">
-        <h2>WELCOME TO OUR WORLD !</h2>
+        <h2>Freshly Delivered to Your Door!</h2>
         <form onSubmit={handleSubmit}>
           <input
             type="email"
             name="email"
-            placeholder="Email Address"
+            placeholder="Enter Email"
             value={formData.email}
             onChange={handleChange}
             required
@@ -32,15 +52,17 @@ const LoginPage = () => {
           <input
             type="password"
             name="password"
-            placeholder="Password"
+            placeholder="Enter Password"
             value={formData.password}
             onChange={handleChange}
             required
           />
-          <button type="submit">Log In</button>
+          <button type="submit" className="login-btn" disabled={loading}>
+            {loading ? <span className="loader"></span> : "Log In"}
+          </button>
         </form>
         <p>
-          Don't have an account? <a href="/register">Sign Up</a>
+          New here? <a href="/signup">Create an Account</a>
         </p>
       </div>
     </div>
