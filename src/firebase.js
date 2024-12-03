@@ -5,14 +5,12 @@ import { getFirestore } from "firebase/firestore";
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAUwz6d51f64wcYoHNUl8VN3NbVR5SahNQ",
-  authDomain: "diplomax-dtek.firebaseapp.com",
-  databaseURL: "https://diplomax-dtek-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "diplomax-dtek",
-  storageBucket: "diplomax-dtek.appspot.com",
-  messagingSenderId: "280311422829",
-  appId: "1:280311422829:web:6b3195246c43eb925b0464",
-  measurementId: "G-WGQ3MK27DQ"
+  apiKey: "AIzaSyAvS32zw7t1EimMTMEFG-p30juAm1Knv2k",
+  authDomain: "vendors-connect.firebaseapp.com",
+  projectId: "vendors-connect",
+  storageBucket: "vendors-connect.firebasestorage.app",
+  messagingSenderId: "955632958049",
+  appId: "1:955632958049:web:9499702969c3caf37b4820"
   };
 
   
