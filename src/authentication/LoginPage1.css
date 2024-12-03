@@ -1,0 +1,86 @@
+/* Background and center alignment */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #1d06ea, #dcd1f6);
+  /* background: linear-gradient(135deg, #A4A4F3, #4B6CB7); Soft gradient from purple to blue */
+}
+
+/* Card styling */
+.login-card {
+  background: linear-gradient(135deg, #F3E9F5, #D3CBE5); /* Soft, light purple gradient */
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 320px;
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Add hover effect to the card */
+.login-card:hover {
+  transform: scale(1.03);
+}
+
+/* Heading styling */
+.login-card h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #4A4A4A;
+  margin-bottom: 1.5rem;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Input fields styling */
+input {
+  display: block;
+  width: 80%;
+  margin: 1rem auto;
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+/* Hover effect for inputs */
+input:focus {
+  border-color: #4B6CB7; /* Highlight border color on focus */
+  outline: none;
+}
+
+/* Button styling */
+button {
+  background: linear-gradient(135deg, #6C5B7B, #F3C6A2); /* Warm gradient for the button */
+  color: white;
+  border: none;
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 85%;
+  margin: 1.5rem auto;
+}
+
+/* Button hover effect */
+button:hover {
+  background: linear-gradient(135deg, #F3C6A2, #6C5B7B); /* Reverse gradient for hover */
+}
+
+/* Link styling */
+p {
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+
+p a {
+  color: #4B6CB7;
+  text-decoration: none;
+}
+
+p a:hover {
+  text-decoration: underline;
+}
