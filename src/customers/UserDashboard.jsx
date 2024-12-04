@@ -18,7 +18,7 @@ const UserDashboard = () => {
       <Header />
       {/* Hero Section */}
       <br /><br /><br /><br /><br /><br /><br /><br /><br />
-      <br /><br /><br /><br /><br /><br /><br />
+      <br /><br /><br /><br /><br /><br /><br /> <br /> <br />
 
       <div
         className="hero-section d-flex flex-column align-items-center justify-content-center"
@@ -82,43 +82,88 @@ const UserDashboard = () => {
       </div>
 
       {/* Vendor Type Selection Section */}
-      <div
-        className="vendor-section p-3"
+<div
+  className="vendor-section p-3"
+  style={{
+    background: "linear-gradient(to bottom, #fff8e1, #ffecb3)", // Warm yellow tones
+    overflowY: "auto",
+    maxHeight: "60vh",
+    borderRadius: "10px",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Subtle shadow for a modern feel
+  }}
+>
+  <h2
+    className="fw-bold text-center mb-3"
+    style={{
+      color: "transparent",
+      backgroundImage: "linear-gradient(90deg, #ff8a80, #ff5252)", // Bold red-orange gradient
+      WebkitBackgroundClip: "text",
+    }}
+  >
+    Discover Vendors that Match Your Needs!
+  </h2>
+  <p
+    className="text-center mb-4"
+    style={{
+      color: "#5d4037", // Earthy brown for contrast
+      fontStyle: "italic",
+      fontSize: "0.9rem",
+    }}
+  >
+    Whether you're chasing fresh deals on the go or want a quick stop for essentials, we've got you covered!
+  </p>
+
+  <VendorTypeButtons onSelection={handleSelection} />
+
+  {selectedType === "roaming" && (
+    <div className="mt-4">
+      <h3
+        className="text-dark mb-3"
         style={{
-          background: "linear-gradient(to bottom, #f8f9fa, #e0f7fa)",
-          overflowY: "auto",
-          maxHeight: "60vh",
+          color: "#3e2723", // Deep brown
+          fontWeight: "bold",
         }}
       >
-        <h2
-          className="fw-bold text-center mb-3"
-          style={{
-            color: "transparent",
-            backgroundImage: "linear-gradient(90deg, #ff7e5f, #feb47b)",
-            WebkitBackgroundClip: "text",
-          }}
-        >
-          Choose Vendor Type
-        </h2>
+        Roaming Vendors: Fresh Finds On the Move
+      </h3>
+      <p
+        className="text-muted"
+        style={{
+          fontSize: "0.85rem",
+        }}
+      >
+        Vendors cruising around with fresh fruits, veggies, and essentials. Perfect for doorstep convenience!
+      </p>
+      <ProductList type="roaming" />
+      <VendorList type="roaming" />
+    </div>
+  )}
 
-        <VendorTypeButtons onSelection={handleSelection} />
+  {selectedType === "fixed" && (
+    <div className="mt-4">
+      <h3
+        className="text-dark mb-3"
+        style={{
+          color: "#3e2723", // Deep brown
+          fontWeight: "bold",
+        }}
+      >
+        Fixed Vendors: Your Neighborhood Essentials
+      </h3>
+      <p
+        className="text-muted"
+        style={{
+          fontSize: "0.85rem",
+        }}
+      >
+        Reliable spots with everything you need, just around the corner. Drop by anytime!
+      </p>
+      <ProductList type="fixed" />
+      <VendorList type="fixed" />
+    </div>
+  )}
+</div>
 
-        {selectedType === "roaming" && (
-          <div className="mt-4">
-            <h3 className="text-dark mb-3">Roaming Vendors</h3>
-            <ProductList type="roaming" />
-            <VendorList type="roaming" />
-          </div>
-        )}
-
-        {selectedType === "fixed" && (
-          <div className="mt-4">
-            <h3 className="text-dark mb-3">Fixed Location Vendors</h3>
-            <ProductList type="fixed" />
-            <VendorList type="fixed" />
-          </div>
-        )}
-      </div>
       <br /><br /><br /><br /><br /><br />
     </>
   );

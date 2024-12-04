@@ -2,18 +2,20 @@ import React, { useEffect, useState } from "react";
 import { db } from "../firebase"; // Update with your Firebase setup
 import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
 import "./cart.css";
-import {useAuth} from '../contexts/AuthContext'
+import { useAuth } from "../contexts/AuthContext";
 import { FaTrashAlt } from "react-icons/fa";
 
-const CartPage = ({ userId }) => {
-  const { currentUser, userRole } = useAuth(); // Get currentUser and userRole from context
-
+const CartPage = () => {
+  const { currentUser } = useAuth(); // Get currentUser from context
+  const userId = currentUser?.uid; // Extract UID from the authenticated user
   const [cartItems, setCartItems] = useState([]);
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    fetchCartItems();
-  }, []);
+    if (userId) {
+      fetchCartItems();
+    }
+  }, [userId]);
 
   const fetchCartItems = async () => {
     try {
@@ -56,6 +58,8 @@ const CartPage = ({ userId }) => {
   };
 
   return (
+    <>
+    <br /><br /><br /><br /><br /><br /><br />
     <div
       className="cart-page min-vh-100"
       style={{
@@ -120,6 +124,7 @@ const CartPage = ({ userId }) => {
         </div>
       )}
     </div>
+    </>
   );
 };
 

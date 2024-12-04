@@ -1,250 +1,172 @@
-import React, { useState, useEffect } from "react";
-import { useAuth } from "../contexts/AuthContext";
-import { getDoc, doc, updateDoc } from "firebase/firestore";
-import { auth, db } from "../firebase";
-import { signOut } from "firebase/auth";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
+import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import { auth, db } from "../firebase"; // Import Firebase config
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import "react-toastify/dist/ReactToastify.css";
+import "./Signup.css";
+import { Link } from "react-router-dom";
 
-const Profile = () => {
-  const { currentUser, userRole } = useAuth(); // Get currentUser and userRole from context
+
+const Signup = () => {
+  const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({
     fullname: "",
     email: "",
     phonenumber: "",
     password: "",
-    address: "",
   });
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); // State to toggle spinner
 
-  useEffect(() => {
-    if (currentUser) {
-      fetchUserDetails();
-      fetchCurrentLocation();
-    }
-  }, [currentUser]);
+  const inputs = [
+    {
+      name: "fullname",
+      placeholder: "Enter Your Full Name",
+      type: "text",
+      validate: (value) => value.trim() !== "",
+      error: "Name cannot be empty.",
+    },
+    {
+      name: "email",
+      placeholder: "Enter Your Email Address",
+      type: "email",
+      validate: (value) => /\S+@\S+\.\S+/.test(value),
+      error: "Enter a valid email address.",
+    },
+    {
+      name: "phonenumber",
+      placeholder: "Enter Your Mobile Number",
+      type: "text",
+      validate: (value) => /^[0-9]{10}$/.test(value),
+      error: "Enter a valid 10-digit mobile number.",
+    },
+    {
+      name: "password",
+      placeholder: "Create Password",
+      type: "password",
+      validate: (value) => value.length >= 6,
+      error: "Password must be at least 6 characters long.",
+    },
+  ];
 
-  // Fetch user details from Firestore
-  const fetchUserDetails = async () => {
-    try {
-      const collection = userRole === "Vendor" ? "vendors" : "users";
-      const userRef = doc(db, collection, currentUser.uid);
-      const userSnap = await getDoc(userRef);
-      if (userSnap.exists()) {
-        setFormData(userSnap.data());
-      } else {
-        console.error("User not found in the database.");
-      }
-    } catch (error) {
-      console.error("Error fetching user details:", error.message);
-    }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
-  // Fetch current location and set address
-  const fetchCurrentLocation = () => {
-    if (!navigator.geolocation) {
-      alert("Geolocation is not supported by your browser.");
+  const handleNext = () => {
+    if (!inputs[currentStep].validate(formData[inputs[currentStep].name])) {
+      toast.error(inputs[currentStep].error);
       return;
     }
-
-    navigator.geolocation.getCurrentPosition(
-      async ({ coords }) => {
-        const { latitude, longitude } = coords;
-        const address = await fetchAddress(latitude, longitude);
-        setFormData((prev) => ({ ...prev, address }));
-      },
-      (err) => {
-        console.error("Error fetching location:", err.message);
-        alert("Unable to fetch current location.");
-      }
-    );
+    if (currentStep < inputs.length - 1) {
+      setCurrentStep(currentStep + 1);
+    }
   };
 
-  // Fetch address from latitude and longitude
-  const fetchAddress = async (latitude, longitude) => {
+  const handlePrevious = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true); // Start spinner
     try {
-      const apiKey = "c7f9cc9dcebc47aba2c968e98472549f"; // Replace with your actual API key
-      const response = await fetch(
-        `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`
+      const { email, password, fullname, phonenumber } = formData;
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
       );
-      const data = await response.json();
-      if (data.results.length > 0) {
-        return data.results[0].formatted;
-      } else {
-        return "Address not found";
-      }
+      const userId = userCredential.user.uid;
+
+      // Save additional user data to Firestore
+      await setDoc(doc(db, "users", userId), {
+        fullname,
+        email,
+        phonenumber,
+        createdAt: new Date(),
+      });
+
+      toast.success("Account created successfully!");
+      setFormData({ fullname: "", email: "", phonenumber: "", password: "" });
+      setCurrentStep(0);
     } catch (error) {
-      console.error("Error fetching address:", error.message);
-      return "Address not available";
-    }
-  };
-
-  // Open the edit modal
-  const openEditModal = () => {
-    setIsEditModalOpen(true);
-  };
-
-  // Handle input changes in the edit modal
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  // Save updated user details to Firestore
-  const saveUpdatedDetails = async () => {
-    try {
-      setLoading(true);
-      const collection = userRole === "Vendor" ? "vendors" : "users";
-      const userRef = doc(db, collection, currentUser.uid);
-      await updateDoc(userRef, formData);
-      setIsEditModalOpen(false);
-      alert("Profile updated successfully!");
-    } catch (error) {
-      console.error("Error updating profile:", error.message);
-      alert("Failed to update profile. Try again later.");
+      toast.error(`Error: ${error.message}`);
     } finally {
-      setLoading(false);
-    }
-  };
-
-  // Logout function
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      alert("Logged out successfully!");
-      window.location.href = "/login"; // Redirect to login page
-    } catch (error) {
-      console.error("Logout failed:", error.message);
+      setLoading(false); // Stop spinner
     }
   };
 
   return (
-    <div
-      style={{
-        padding: "20px",
-        background: "linear-gradient(90deg, #6a11cb, #2575fc)",
-        minHeight: "100vh",
-        color: "white",
-      }}
-    >
-      <div style={{ textAlign: "center", marginBottom: "20px" }}>
-        <h2 style={{ fontWeight: "bold" }}>My Profile</h2>
-        <p style={{ fontSize: "0.9rem", color: "rgba(255, 255, 255, 0.8)" }}>
-          {userRole === "Vendor" ? "Vendor Account" : "User Account"}
+    <div className="signup-container">
+      <h1>
+        Welcome to <span>GroceryApp</span>
+      </h1>
+
+      <ToastContainer position="top-center" autoClose={3000} />
+      <div className="signup-card">
+        <h1>
+          <span>Create a New Account</span>
+        </h1>
+        <form onSubmit={handleSubmit}>
+          <div className="input-wrapper">
+            <input
+              type={inputs[currentStep].type}
+              name={inputs[currentStep].name}
+              value={formData[inputs[currentStep].name]}
+              onChange={handleChange}
+              placeholder={inputs[currentStep].placeholder}
+              autoFocus
+              required
+            />
+          </div>
+          <div className="actions">
+            {currentStep > 0 && (
+              <button
+                type="button"
+                onClick={handlePrevious}
+                className="action-btn prev-btn"
+              >
+                &#8592; Back
+              </button>
+            )}
+            {currentStep < inputs.length - 1 ? (
+              <button
+                type="button"
+                onClick={handleNext}
+                className="action-btn next-btn"
+              >
+                Next &#8594;
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="submit-btn"
+                disabled={loading} // Disable button while loading
+              >
+                {loading ? (
+                  <span className="spinner"></span>
+                ) : (
+                  "Register"
+                )}
+              </button>
+            )}
+          </div>
+        </form>
+
+        <p>
+          Already Have an Account? <Link to="/login">Login</Link>
         </p>
+        <p>
+         <Link to="/forgot-password">Forgot Your Password?</Link>
+        </p>
+
       </div>
-
-      {/* Profile Info */}
-      <div
-        style={{
-          background: "white",
-          borderRadius: "10px",
-          padding: "20px",
-          color: "#333",
-          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        <h4 style={{ fontWeight: "bold", marginBottom: "10px" }}>
-          {formData.fullname || "User Name"}
-        </h4>
-        <p>Email: {formData.email || "Not Provided"}</p>
-        <p>Phone: {formData.phonenumber || "Not Provided"}</p>
-        <p>Address: {formData.address || "Fetching address..."}</p>
-
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Button
-            variant="primary"
-            onClick={openEditModal}
-            style={{
-              background: "linear-gradient(90deg, #ff9966, #ff5e62)",
-              border: "none",
-            }}
-          >
-            Edit Profile
-          </Button>
-          <Button
-            variant="danger"
-            onClick={handleLogout}
-            style={{
-              background: "linear-gradient(90deg, #ff6a6a, #ff4747)",
-              border: "none",
-            }}
-          >
-            Logout
-          </Button>
-        </div>
-      </div>
-
-      {/* Edit Modal */}
-      <Modal show={isEditModalOpen} onHide={() => setIsEditModalOpen(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Profile</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <form>
-            <div className="mb-3">
-              <label htmlFor="fullname" className="form-label">
-                Full Name
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="fullname"
-                name="fullname"
-                value={formData.fullname || ""}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label">
-                Email
-              </label>
-              <input
-                type="email"
-                className="form-control"
-                id="email"
-                name="email"
-                value={formData.email || ""}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="phonenumber" className="form-label">
-                Phone
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="phonenumber"
-                name="phonenumber"
-                value={formData.phonenumber || ""}
-                onChange={handleInputChange}
-              />
-            </div>
-          </form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            variant="secondary"
-            onClick={() => setIsEditModalOpen(false)}
-          >
-            Close
-          </Button>
-          <Button
-            variant="primary"
-            onClick={saveUpdatedDetails}
-            disabled={loading}
-          >
-            {loading ? "Saving..." : "Save Changes"}
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </div>
   );
 };
 
-export default Profile;
+export default Signup;

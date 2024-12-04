@@ -17,6 +17,7 @@ import UserProfile from './customers/UserProfile'
 import UserHeader from './customers/Header'
 import Footer from './customers/Footer';
 import CartPage from './customers/Cart';
+import Sc from './authentication/Signup';
 
 
 function App() {
@@ -30,10 +31,11 @@ function App() {
     
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup/>} />
+      <Route path="/create-acc" element={<Sc/>} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/vendor-login" element={<VendorProfilePage/>} />
 
+        
 
       {/* <Route path="/unauthorized" element={<Unauthorized />} /> */}
 

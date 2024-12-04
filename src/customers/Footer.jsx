@@ -12,22 +12,22 @@ const BottomNavbar = () => {
         <span className="menu-text">Home</span>
       </Link>
 
-      <Link to="/buy" style={{textDecoration:"none"}} className="navbar-item">
+      <Link to="/user/buy" style={{textDecoration:"none"}} className="navbar-item">
         <FaShoppingBag className="icon" />
         <span className="menu-text">Buy Now</span>
       </Link>
 
       {/* Floating Map Icon */}
-      <Link to="/map" style={{textDecoration:"none"}} className="floating-icon">
+      <Link to="/user/map" style={{textDecoration:"none"}} className="floating-icon">
         <FaMapMarkedAlt className="icon-floating" />
       </Link>
 
-      <Link to="/profile" style={{textDecoration:"none"}} className="navbar-item">
+      <Link to="/user/profile" style={{textDecoration:"none"}} className="navbar-item">
         <FaUser className="icon" />
         <span className="menu-text">Profile</span>
       </Link>
 
-      <Link to="/cart" style={{textDecoration:"none"}} className="navbar-item">
+      <Link to="/user/cart" style={{textDecoration:"none"}} className="navbar-item">
         <FaShoppingCart className="icon" />
         <span className="menu-text">Cart</span>
       </Link>
