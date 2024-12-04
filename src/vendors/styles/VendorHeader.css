@@ -1,0 +1,63 @@
+.vendor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .vendor-title {
+    font-size: 1.5rem;
+    color: #32cd32;
+    font-weight: bold;
+  }
+  
+  .btn {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #ffffff;
+  }
+  
+  .btn-success {
+    background-color: #28a745;
+  }
+  
+  .btn-danger {
+    background-color: #dc3545;
+  }
+  
+  .btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  /* Add custom styles to enhance the toggle effect */
+.vendor-header {
+  z-index: 1050;
+}
+
+.btn-toggle {
+  transition: all 0.3s ease; /* Smooth transition for color and background change */
+  border-radius: 50px; /* Rounded edges for a toggle-like appearance */
+  padding: 10px 20px; /* Adjust padding to look nice */
+  font-size: 16px;
+}
+
+/* Custom Colors for the Toggle */
+.btn-toggle.btn-success {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-toggle.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Button text transition */
+.btn-toggle:disabled {
+  opacity: 0.7;
+}

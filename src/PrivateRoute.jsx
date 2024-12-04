@@ -1,13 +1,19 @@
-import React from 'react';
-import { useAuth } from './contexts/AuthContext';
-import { Outlet, Navigate, useLocation } from 'react-router-dom';
+import React from "react";
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "./contexts/AuthContext";
 
-const PrivateRoute = () => {
-  const { userLoggedIn } = useAuth();
-  const location = useLocation(); // Capture the current location
+const RoleBasedRoute = ({ allowedRoles }) => {
+  const { userLoggedIn, userRole } = useAuth();
 
-  // If not logged in, redirect to AdminLogin, passing the current location as state
-  return userLoggedIn ? <Outlet /> : <Navigate to="/login" state={{ from: location }} replace />;
+  if (!userLoggedIn) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (!allowedRoles.includes(userRole)) {
+    return <Navigate to="/unauthorized" replace />;
+  }
+
+  return <Outlet />;
 };
 
-export default PrivateRoute;
+export default RoleBasedRoute;

@@ -1,9 +1,5 @@
 /* Ensure full height for the page */
-html, body {
-    height: 100%;
-    margin: 0;
-    font-family: Arial, sans-serif;
-  }
+
   
   /* Ensure the container takes full height and is scrollable */
   .product-manager-container {

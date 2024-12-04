@@ -1,6 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { auth } from '../firebase';
-import { onAuthStateChanged } from 'firebase/auth';
+import React, { useContext, useEffect, useState } from "react";
+import { auth, db } from "../firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
 const AuthContext = React.createContext();
 
@@ -9,46 +10,58 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-  const [currentUser, setcurrentUser] = useState();
-  const [userLoggedIn, setuserLoggedIn] = useState(false);
-  const [loading, setloading] = useState(true);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [userRole, setUserRole] = useState(null); // "Vendor" or "User"
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
+  
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, initializeUser);
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setCurrentUser(user);
+        setUserLoggedIn(true);
+        await determineUserRole(user.uid); // Check which collection the user belongs to
+      } else {
+        setCurrentUser(null);
+        setUserRole(null);
+        setUserLoggedIn(false);
+      }
+      setLoading(false);
+    });
 
     return () => unsubscribe();
   }, []);
 
-  async function initializeUser(user) {
-    if (user) {
-      setcurrentUser(user);
-      setuserLoggedIn(true);
-    } else {
-      setcurrentUser(null);
-      setuserLoggedIn(false);
-    }
-    setloading(false);
-  }
-
-  const getCurrentUser = () => {
-    return new Promise((resolve, reject) => {
-      if (currentUser) {
-        resolve(currentUser);
-      } else {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-          unsubscribe();
-          setcurrentUser(user);
-          resolve(user);
-        });
+  // Determine user role based on presence in collections
+  const determineUserRole = async (uid) => {
+    try {
+      // Check if the user is a vendor
+      const vendorDoc = await getDoc(doc(db, "vendors", uid));
+      if (vendorDoc.exists()) {
+        setUserRole("Vendor");
+        return;
       }
-    });
+
+      // Check if the user is a general user
+      const userDoc = await getDoc(doc(db, "users", uid));
+      if (userDoc.exists()) {
+        setUserRole("User");
+        return;
+      }
+
+      // If not found in any collection
+      setUserRole(null);
+    } catch (error) {
+      console.error("Error determining user role:", error);
+    }
   };
 
   const value = {
     currentUser,
+    userRole,
     userLoggedIn,
     loading,
-    getCurrentUser,
   };
 
   return (

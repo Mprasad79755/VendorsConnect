@@ -1,0 +1,85 @@
+/* Reset styles for mobile-first design */
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Top Navbar Container */
+  .top-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;    background: linear-gradient(45deg, #32cd32, #008000);
+
+    padding: 10px 15px;
+    z-index: 1000;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    color: white;
+    font-size: 1rem;
+  }
+  
+  /* Location container (left) */
+  .location-container {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+  }
+  
+  /* Location icon */
+  .icon-location {
+    font-size: 1.4rem;
+    margin-right: 8px;
+    color: white;
+  }
+  
+  /* Location text */
+  .location-text {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  
+  /* Profile icon container (right) */
+  .profile-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;    background: linear-gradient(45deg, #32cd32, #008000);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .profile-icon:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Mobile responsiveness */
+  @media (max-width: 768px) {
+    .location-text {
+      font-size: 0.8rem;
+    }
+  
+    .icon-location {
+      font-size: 1.2rem;
+    }
+  
+    .profile-icon {
+      width: 35px;
+      height: 35px;
+      font-size: 1rem;
+    }
+  }
+  

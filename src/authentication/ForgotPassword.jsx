@@ -4,6 +4,8 @@ import { ToastContainer, toast } from "react-toastify";
 import { auth } from "../firebase"; // Import Firebase config
 import "react-toastify/dist/ReactToastify.css";
 import "./ForgotPassword.css";
+import { Link } from "react-router-dom";
+
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -50,7 +52,12 @@ const ForgotPassword = () => {
             {loading ? <span className="spinner"></span> : "Send Reset Link"}
           </button>
         </form>
+
+        <p>
+           <Link to="/signup">Go Back</Link>
+        </p>
       </div>
+     
     </div>
   );
 };

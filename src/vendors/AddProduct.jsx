@@ -3,7 +3,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { db } from "../firebase"; // Firebase configuration
 import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc, query, where } from "firebase/firestore";
 import axios from "axios";
-import "./AddProduct.css";
+import "./styles/AddProduct.css";
 import { useNavigate } from "react-router-dom";
 
 const VendorProductManager = () => {
@@ -48,16 +48,29 @@ const VendorProductManager = () => {
     if (!name) return;
     setLoading(true);
     try {
-      const response = await axios.get(
-        `https://api.unsplash.com/photos/random?query=${name}&client_id=ykJeBo_uA8d84B5Ty3e4gx15h6kwt4WiAwm5AqLHi_A`
+      const response = await axios.get(`https://pixabay.com/api/`, {
+        params: {
+          key: "47437496-fa510d8d68aa225396025fa55",
+          q: name,
+          image_type: "photo",
+          per_page: 3, // Minimum valid value for per_page
+        },
+      });
+  
+      setImageUrl(
+        response.data.hits[0]?.webformatURL ||
+          "https://via.placeholder.com/150/CCCCCC/000000?text=No+Image"
       );
-      setImageUrl(response.data.urls?.regular || "");
     } catch (error) {
-      setImageUrl("https://via.placeholder.com/150/CCCCCC/000000?text=No+Image");
+      console.error("Error fetching image from Pixabay:", error.message);
+      setImageUrl(
+        "https://via.placeholder.com/150/CCCCCC/000000?text=No+Image"
+      );
     } finally {
       setLoading(false);
     }
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();

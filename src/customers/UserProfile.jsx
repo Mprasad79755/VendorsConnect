@@ -123,14 +123,16 @@ const Profile = () => {
   };
 
   return (
+    <>
+    <br /><br /><br />
     <div
       style={{
         padding: "20px",
-        background: "linear-gradient(90deg, #6a11cb, #2575fc)",
         minHeight: "100vh",
         color: "white",
       }}
     >
+        <br />
       <div style={{ textAlign: "center", marginBottom: "20px" }}>
         <h2 style={{ fontWeight: "bold" }}>My Profile</h2>
         <p style={{ fontSize: "0.9rem", color: "rgba(255, 255, 255, 0.8)" }}>
@@ -244,6 +246,7 @@ const Profile = () => {
         </Modal.Footer>
       </Modal>
     </div>
+    </>
   );
 };
 

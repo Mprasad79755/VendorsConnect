@@ -1,0 +1,60 @@
+/* Hero Section */
+.hero-icons {
+    gap: 1rem;
+    display: flex;
+    justify-content: center;
+  }
+  .hero-icon-box {
+    text-align: center;
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100px;
+  }
+  .hero-icon {
+    font-size: 2.5rem;
+    color: #43a047;
+  }
+  .hero-icon-box p {
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  /* Features Section */
+  .icon-feature {
+    font-size: 2.5rem;
+    color: #43a047;
+  }
+  
+  .features-section .feature-item {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .features-section .feature-item:hover {
+    transform: translateY(-3px);
+    transition: transform 0.3s ease;
+  }
+  
+  /* Vendor Section */
+  .vendor-section {
+    margin-top: 20px;
+    overflow-y: auto;
+    max-height: 60vh;
+  }
+  
+  .vendor-section h3 {
+    color: #ff7e5f;
+    font-weight: bold;
+  }
+  
+  .vendor-section .btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
