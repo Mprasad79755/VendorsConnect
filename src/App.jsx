@@ -18,6 +18,10 @@ import UserHeader from './customers/Header'
 import Footer from './customers/Footer';
 import CartPage from './customers/Cart';
 import Sc from './authentication/Signup';
+import MapView from './customers/MapView'
+import ProductCatalog from './customers/ProductCatalog';
+import Class from './customers/class';
+import VendorViewProfile from './customers/VendorProfile'
 
 
 function App() {
@@ -33,7 +37,9 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/create-acc" element={<Sc/>} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="/vendor-login" element={<VendorProfilePage/>} />
+      <Route path="/vendor-login" element={<VendorViewProfile/>} />
+      
+
 
         
 
@@ -59,6 +65,12 @@ function App() {
         <Route path="dashboard" element={<><UserDashboard/></>} />
         <Route path="profile" element={<UserProfile/>} />
         <Route path="cart" element={<CartPage/>} />
+        <Route path="map" element={<MapView/>} />
+        <Route path="buy" element={<ProductCatalog/>} />
+        <Route path="class" element={<Class/>} />
+        <Route path="vendor-profile/:vendorId" element={<VendorViewProfile/>} />
+
+
 
 
       </Route>

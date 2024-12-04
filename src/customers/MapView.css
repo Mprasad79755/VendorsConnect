@@ -1,0 +1,42 @@
+NearbyVendors.css
+.nearby-vendors {
+    padding: 15px;
+    background: linear-gradient(to bottom, #ffcc80, #ff8a65); /* Gradients */
+  }
+  
+  h2 {
+    margin-top: 20px;
+    font-size: 1.5rem;
+  }
+  
+  @media (max-width: 576px) {
+    h2 {
+      font-size: 1.2rem; /* Adjust title size for smaller screens */
+    }
+  }
+  
+  .leaflet-container {
+    border-radius: 12px;
+  }
+  
+  /* Example CSS for fixed top and bottom navbars */
+.navbar-top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333; /* Or any color */
+    z-index: 1000; /* Ensure it's above other elements */
+    padding: 10px;
+  }
+  
+  .navbar-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333; /* Or any color */
+    z-index: 1000; /* Ensure it's above other elements */
+    padding: 10px;
+  }
+   

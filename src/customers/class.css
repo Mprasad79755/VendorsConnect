@@ -1,0 +1,112 @@
+.cooking-class-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    background-color: hsl(120, 71%, 67%);
+  }
+  
+  .cooking-class-form h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .input-group input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .cooking-class-form input[type="email"],
+  .cooking-class-form input[type="tel"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .class-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .class-option {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    background-color: #f9f9f9;
+  }
+  
+  .class-option:hover {
+    transform: scale(1.02);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .class-option.selected {
+    border-color: #32cd32;
+    background-color: #e9f5ff;
+  }
+  
+  .time-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .time-option {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    transition: background-color 0.2s, border-color 0.2s;
+  }
+  
+  .time-option.selected {
+    border-color: #32cd32;
+    background-color: #e9f5ff;
+  }
+  
+  .time-option:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .total {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: right;
+  }
+  
+  .submit-button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #32cd32;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .submit-button:hover {
+    background-color: #32cd32;
+  }

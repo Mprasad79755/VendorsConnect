@@ -3,6 +3,7 @@ import VendorTypeButtons from "./VendorTypeButtons";
 import VendorList from "./VendorList";
 import ProductList from "./ProductList";
 import Header from "./Header";
+import { Link } from "react-router-dom";
 import "./dashboard.css";
 import { FaTruck, FaStore, FaMapMarkedAlt, FaHandHoldingUsd, FaShoppingCart, FaLeaf } from "react-icons/fa";
 
@@ -32,7 +33,7 @@ const UserDashboard = () => {
         <h1 className="fw-bold" style={{ fontSize: "1.8rem" }}>
           Welcome to <span style={{ color: "#fff176" }}>VendorGo</span>
         </h1>
-        <p className="mt-2" style={{ fontSize: "1rem", fontWeight:"bolder", color:"white", fontSize:"19px"}}>
+        <p className="mt-2" style={{ fontSize: "1rem", fontWeight:"bolder", color:"white", fontSize:"19px" }}>
           Explore fresh products, local vendors, and unbeatable deals.
         </p>
         <div className="hero-icons d-flex justify-content-center gap-3 mt-4">
@@ -82,87 +83,115 @@ const UserDashboard = () => {
       </div>
 
       {/* Vendor Type Selection Section */}
-<div
-  className="vendor-section p-3"
-  style={{
-    background: "linear-gradient(to bottom, #fff8e1, #ffecb3)", // Warm yellow tones
-    overflowY: "auto",
-    maxHeight: "60vh",
-    borderRadius: "10px",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Subtle shadow for a modern feel
-  }}
->
-  <h2
-    className="fw-bold text-center mb-3"
-    style={{
-      color: "transparent",
-      backgroundImage: "linear-gradient(90deg, #ff8a80, #ff5252)", // Bold red-orange gradient
-      WebkitBackgroundClip: "text",
-    }}
-  >
-    Discover Vendors that Match Your Needs!
-  </h2>
-  <p
-    className="text-center mb-4"
-    style={{
-      color: "#5d4037", // Earthy brown for contrast
-      fontStyle: "italic",
-      fontSize: "0.9rem",
-    }}
-  >
-    Whether you're chasing fresh deals on the go or want a quick stop for essentials, we've got you covered!
-  </p>
+      <div
+        className="vendor-section p-3"
+        style={{
+          background: "linear-gradient(to bottom, #fff8e1, #ffecb3)", // Warm yellow tones
+          overflowY: "auto",
+          maxHeight: "60vh",
+          borderRadius: "10px",
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Subtle shadow for a modern feel
+        }}
+      >
+        <h2
+          className="fw-bold text-center mb-3"
+          style={{
+            color: "transparent",
+            backgroundImage: "linear-gradient(90deg, #ff8a80, #ff5252)", // Bold red-orange gradient
+            WebkitBackgroundClip: "text",
+          }}
+        >
+          Discover Vendors that Match Your Needs!
+        </h2>
+        <p
+          className="text-center mb-4"
+          style={{
+            color: "#5d4037", // Earthy brown for contrast
+            fontStyle: "italic",
+            fontSize: "0.9rem",
+          }}
+        >
+          Whether you're chasing fresh deals on the go or want a quick stop for essentials, we've got you covered!
+        </p>
 
-  <VendorTypeButtons onSelection={handleSelection} />
+        <VendorTypeButtons onSelection={handleSelection} />
 
-  {selectedType === "roaming" && (
-    <div className="mt-4">
-      <h3
-        className="text-dark mb-3"
+<br /><br />
+<div className="d-flex justify-content-center gap-3">
+      <Link
+        to="/user/class"
+        className="btn btn-lg btn-gradient shadow-lg"
         style={{
-          color: "#3e2723", // Deep brown
-          fontWeight: "bold",
+          background: "linear-gradient(90deg, #6a11cb, #2575fc)",
+          color: "#fff",
+          width: "180px",
+          height: "60px",
+          borderRadius: "12px",
         }}
       >
-        Roaming Vendors: Fresh Finds On the Move
-      </h3>
-      <p
-        className="text-muted"
-        style={{
-          fontSize: "0.85rem",
-        }}
-      >
-        Vendors cruising around with fresh fruits, veggies, and essentials. Perfect for doorstep convenience!
-      </p>
-      <ProductList type="roaming" />
-      <VendorList type="roaming" />
-    </div>
-  )}
+        Classes
+      </Link>
+      </div>
 
-  {selectedType === "fixed" && (
-    <div className="mt-4">
-      <h3
-        className="text-dark mb-3"
-        style={{
-          color: "#3e2723", // Deep brown
-          fontWeight: "bold",
-        }}
-      >
-        Fixed Vendors: Your Neighborhood Essentials
-      </h3>
-      <p
-        className="text-muted"
-        style={{
-          fontSize: "0.85rem",
-        }}
-      >
-        Reliable spots with everything you need, just around the corner. Drop by anytime!
-      </p>
-      <ProductList type="fixed" />
-      <VendorList type="fixed" />
-    </div>
-  )}
-</div>
+
+        {selectedType === "roaming" && (
+          <div className="mt-4">
+            <h3
+              className="text-dark mb-3"
+              style={{
+                color: "#3e2723", // Deep brown
+                fontWeight: "bold",
+              }}
+            >
+              Roaming Vendors: Fresh Finds On the Move
+            </h3>
+            <p
+              className="text-muted"
+              style={{
+                fontSize: "0.85rem",
+              }}
+            >
+              Vendors cruising around with fresh fruits, veggies, and essentials. Perfect for doorstep convenience!
+            </p>
+            <ProductList type="roaming" />
+            <VendorList type="roaming" />
+            {/* Add button at the bottom of roaming vendors section */}
+            <div className="text-center mt-4">
+              <button className="classes btn btn-primary">Explore More Roaming Vendors</button>
+            </div>
+          </div>
+        )}
+
+        {selectedType === "fixed" && (
+          <div className="mt-4">
+            <h3
+              className="text-dark mb-3"
+              style={{
+                color: "#3e2723", // Deep brown
+                fontWeight: "bold",
+              }}
+            >
+              Fixed Vendors: Your Neighborhood Essentials
+            </h3>
+            <p
+              className="text-muted"
+              style={{
+                fontSize: "0.85rem",
+              }}
+            >
+              Reliable spots with everything you need, just around the corner. Drop by anytime!
+            </p>
+            <ProductList type="fixed" />
+            <VendorList type="fixed" />
+            {/* Add button at the bottom of fixed vendors section */}
+            <div className="text-center mt-4">
+              <button className="classes btn btn-primary">Explore More Fixed Vendors</button>
+            </div>
+          </div>
+        )}
+
+        
+      </div>
 
       <br /><br /><br /><br /><br /><br />
     </>

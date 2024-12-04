@@ -57,4 +57,18 @@
     width: 100%;
     margin-bottom: 10px;
   }
+  .classes {
+    background-color: #ff5722; /* Example color */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .classes:hover {
+    background-color: #e64a19; /* Darker shade on hover */
+  }
   
