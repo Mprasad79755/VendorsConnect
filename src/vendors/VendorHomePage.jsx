@@ -21,7 +21,7 @@ const VendorHome = () => {
 
   const menuItems = [
     { title: 'Manage Products', icon: 'fas fa-boxes', route: '/vendor/manage-products' },
-    { title: 'Order Requests', icon: 'fas fa-shopping-bag', route: '/vendor/orders' },
+    { title: 'Order Requests', icon: 'fas fa-shopping-bag', route: '/vendor/order-request' },
     { title: 'Profile Settings', icon: 'fas fa-user-cog', route: '/vendor/profile' },
   ];
 

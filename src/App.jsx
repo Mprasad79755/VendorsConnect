@@ -22,7 +22,9 @@ import MapView from './customers/MapView'
 import ProductCatalog from './customers/ProductCatalog';
 import Class from './customers/class';
 import VendorViewProfile from './customers/VendorProfile'
-
+import VendorProfileCreation from './authentication/VendorProfile'
+import Track from './customers/track'
+import OrderRequest from './vendors/OrderRequest';
 
 function App() {
 
@@ -35,9 +37,9 @@ function App() {
     
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/create-acc" element={<Sc/>} />
+      <Route path="/signup" element={<Sc/>} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="/vendor-login" element={<VendorViewProfile/>} />
+      <Route path="/vendor-login" element={<VendorProfileCreation/>} />
       
 
 
@@ -53,6 +55,10 @@ function App() {
         <Route path="dashboard" element={<VendorHomePage/>} />
         <Route path="manage-products" element={<AddProduct/>} />
         <Route path="profile" element={<VendorProfile/>} />
+        <Route path="unauthorized" element={<VendorProfile/>} />
+        <Route path="order-request" element={<OrderRequest/>} />
+
+
 
 
       </Route>
@@ -69,6 +75,8 @@ function App() {
         <Route path="buy" element={<ProductCatalog/>} />
         <Route path="class" element={<Class/>} />
         <Route path="vendor-profile/:vendorId" element={<VendorViewProfile/>} />
+        <Route path="track" element={<Track/>} />
+
 
 
 

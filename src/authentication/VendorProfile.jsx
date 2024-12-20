@@ -122,6 +122,7 @@ const VendorProfile = () => {
 
       // Save vendor data to Firestore with the uid as the document ID
       await setDoc(doc(db, "vendors", uid), {
+        uid,
         name,
         email,
         phone,
