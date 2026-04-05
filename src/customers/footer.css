@@ -14,8 +14,8 @@ body, html {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    /* background: linear-gradient(90deg, #43cea2, #185a9d); */
-    background: linear-gradient(45deg, #32cd32, #008000);
+    background: linear-gradient(135deg, #1b5e20, #0d3b11);
+    border-top: 1px solid rgba(0,0,0,0.1);
 
     padding: 10px 0;
     z-index: 1000;
@@ -52,7 +52,7 @@ body, html {
   .floating-icon {
     position: absolute;
     top: -30px;
-    background: linear-gradient(45deg, #32cd32, #008000);
+    background: linear-gradient(135deg, #43a047, #1b5e20);
 
     border-radius: 50%;
     width: 60px;

@@ -5,14 +5,14 @@ import { auth, db } from "../firebase";
 import { signOut } from "firebase/auth";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaSignOutAlt, FaEdit } from "react-icons/fa";
 
 const Profile = () => {
-  const { currentUser, userRole } = useAuth(); // Get currentUser and userRole from context
+  const { currentUser, userRole } = useAuth();
   const [formData, setFormData] = useState({
     fullname: "",
     email: "",
     phonenumber: "",
-    password: "",
     address: "",
   });
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -25,7 +25,6 @@ const Profile = () => {
     }
   }, [currentUser]);
 
-  // Fetch user details from Firestore
   const fetchUserDetails = async () => {
     try {
       const collection = userRole === "Vendor" ? "vendors" : "users";
@@ -33,20 +32,14 @@ const Profile = () => {
       const userSnap = await getDoc(userRef);
       if (userSnap.exists()) {
         setFormData(userSnap.data());
-      } else {
-        console.error("User not found in the database.");
       }
     } catch (error) {
       console.error("Error fetching user details:", error.message);
     }
   };
 
-  // Fetch current location and set address
   const fetchCurrentLocation = () => {
-    if (!navigator.geolocation) {
-      alert("Geolocation is not supported by your browser.");
-      return;
-    }
+    if (!navigator.geolocation) return;
 
     navigator.geolocation.getCurrentPosition(
       async ({ coords }) => {
@@ -54,47 +47,30 @@ const Profile = () => {
         const address = await fetchAddress(latitude, longitude);
         setFormData((prev) => ({ ...prev, address }));
       },
-      (err) => {
-        console.error("Error fetching location:", err.message);
-        alert("Unable to fetch current location.");
-      }
+      (err) => console.error("Error fetching location:", err.message)
     );
   };
 
-  // Fetch address from latitude and longitude
   const fetchAddress = async (latitude, longitude) => {
     try {
-      const apiKey = "c7f9cc9dcebc47aba2c968e98472549f"; // Replace with your actual API key
+      const apiKey = "c7f9cc9dcebc47aba2c968e98472549f";
       const response = await fetch(
         `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`
       );
       const data = await response.json();
-      if (data.results.length > 0) {
-        return data.results[0].formatted;
-      } else {
-        return "Address not found";
-      }
-    } catch (error) {
-      console.error("Error fetching address:", error.message);
+      return data.results?.[0]?.formatted || "Address not found";
+    } catch {
       return "Address not available";
     }
   };
 
-  // Open the edit modal
-  const openEditModal = () => {
-    setIsEditModalOpen(true);
-  };
+  const openEditModal = () => setIsEditModalOpen(true);
 
-  // Handle input changes in the edit modal
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Save updated user details to Firestore
   const saveUpdatedDetails = async () => {
     try {
       setLoading(true);
@@ -102,151 +78,191 @@ const Profile = () => {
       const userRef = doc(db, collection, currentUser.uid);
       await updateDoc(userRef, formData);
       setIsEditModalOpen(false);
-      alert("Profile updated successfully!");
     } catch (error) {
-      console.error("Error updating profile:", error.message);
-      alert("Failed to update profile. Try again later.");
+      alert("Failed to update profile: " + error.message);
     } finally {
       setLoading(false);
     }
   };
 
-  // Logout function
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      alert("Logged out successfully!");
-      window.location.href = "/login"; // Redirect to login page
+      window.location.href = "/login";
     } catch (error) {
       console.error("Logout failed:", error.message);
     }
   };
 
+  const getInitials = (name) => {
+    if (!name) return "U";
+    return name.split(" ").map(n => n[0]).join("").toUpperCase().substring(0, 2);
+  };
+
   return (
-    <>
-    <br /><br /><br />
-    <div
-      style={{
-        padding: "20px",
-        minHeight: "100vh",
-        color: "white",
-      }}
-    >
-        <br />
-      <div style={{ textAlign: "center", marginBottom: "20px" }}>
-        <h2 style={{ fontWeight: "bold" }}>My Profile</h2>
-        <p style={{ fontSize: "0.9rem", color: "rgba(255, 255, 255, 0.8)" }}>
-          {userRole === "Vendor" ? "Vendor Account" : "User Account"}
-        </p>
-      </div>
+    <div style={{ background: "#f8f9fa", minHeight: "100vh", padding: "20px" }}>
+      <br /><br /><br />
+      <div className="container" style={{ maxWidth: "500px" }}>
+        {/* Profile Header */}
+        <div style={{
+          background: "linear-gradient(135deg, #a8e063, #56ab2f)",
+          borderRadius: "20px 20px 0 0",
+          padding: "40px 20px",
+          textAlign: "center",
+          color: "white",
+          boxShadow: "0 4px 15px rgba(0,0,0,0.1)"
+        }}>
+          <div style={{
+            width: "100px",
+            height: "100px",
+            backgroundColor: "white",
+            margin: "0 auto 15px",
+            borderRadius: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "2.5rem",
+            fontWeight: "bold",
+            color: "#56ab2f",
+            boxShadow: "0 4px 10px rgba(0,0,0,0.1)"
+          }}>
+            {getInitials(formData.fullname)}
+          </div>
+          <h2 style={{ margin: 0, fontWeight: "700" }}>{formData.fullname || "User Name"}</h2>
+          <p style={{ opacity: 0.9, marginBottom: 0 }}>{userRole === "Vendor" ? "Vendor Account" : "Premium Member"}</p>
+        </div>
 
-      {/* Profile Info */}
-      <div
-        style={{
+        {/* Profile Details */}
+        <div style={{
           background: "white",
-          borderRadius: "10px",
-          padding: "20px",
-          color: "#333",
-          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        <h4 style={{ fontWeight: "bold", marginBottom: "10px" }}>
-          {formData.fullname || "User Name"}
-        </h4>
-        <p>Email: {formData.email || "Not Provided"}</p>
-        <p>Phone: {formData.phonenumber || "Not Provided"}</p>
-        <p>Address: {formData.address || "Fetching address..."}</p>
+          borderRadius: "0 0 20px 20px",
+          padding: "30px",
+          boxShadow: "0 10px 25px rgba(0,0,0,0.05)"
+        }}>
+          <div style={{ marginBottom: "25px" }}>
+            <div style={{ display: "flex", alignItems: "center", marginBottom: "20px" }}>
+              <div style={{ color: "#56ab2f", marginRight: "15px", fontSize: "1.2rem" }}><FaEnvelope /></div>
+              <div>
+                <small style={{ color: "#888", display: "block" }}>Email Address</small>
+                <span style={{ fontWeight: "600", color: "#333" }}>{formData.email || "Not Provided"}</span>
+              </div>
+            </div>
 
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Button
-            variant="primary"
-            onClick={openEditModal}
-            style={{
-              background: "linear-gradient(90deg, #ff9966, #ff5e62)",
-              border: "none",
-            }}
-          >
-            Edit Profile
-          </Button>
-          <Button
-            variant="danger"
-            onClick={handleLogout}
-            style={{
-              background: "linear-gradient(90deg, #ff6a6a, #ff4747)",
-              border: "none",
-            }}
-          >
-            Logout
-          </Button>
+            <div style={{ display: "flex", alignItems: "center", marginBottom: "20px" }}>
+              <div style={{ color: "#56ab2f", marginRight: "15px", fontSize: "1.2rem" }}><FaPhone /></div>
+              <div>
+                <small style={{ color: "#888", display: "block" }}>Phone Number</small>
+                <span style={{ fontWeight: "600", color: "#333" }}>{formData.phonenumber || "Not Provided"}</span>
+              </div>
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ color: "#56ab2f", marginRight: "15px", fontSize: "1.2rem" }}><FaMapMarkerAlt /></div>
+              <div>
+                <small style={{ color: "#888", display: "block" }}>Residential Address</small>
+                <span style={{ fontWeight: "600", color: "#333", fontSize: "0.95rem" }}>{formData.address || "Fetching..."}</span>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "15px" }}>
+            <button
+              onClick={openEditModal}
+              style={{
+                background: "white",
+                border: "2px solid #56ab2f",
+                color: "#56ab2f",
+                padding: "12px",
+                borderRadius: "12px",
+                fontWeight: "600",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "8px",
+                transition: "all 0.3s"
+              }}
+            >
+              <FaEdit /> Edit
+            </button>
+            <button
+              onClick={handleLogout}
+              style={{
+                background: "#ff4b2b",
+                border: "none",
+                color: "white",
+                padding: "12px",
+                borderRadius: "12px",
+                fontWeight: "600",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "8px"
+              }}
+            >
+              <FaSignOutAlt /> Logout
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Edit Modal */}
-      <Modal show={isEditModalOpen} onHide={() => setIsEditModalOpen(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Profile</Modal.Title>
+      <Modal show={isEditModalOpen} onHide={() => setIsEditModalOpen(false)} centered>
+        <Modal.Header closeButton style={{ borderBottom: "none", padding: "20px 20px 0" }}>
+          <Modal.Title style={{ fontWeight: "700", color: "#333" }}>Edit Profile</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{ padding: "20px" }}>
           <form>
-            <div className="mb-3">
-              <label htmlFor="fullname" className="form-label">
-                Full Name
-              </label>
+            <div className="mb-4">
+              <label className="form-label" style={{ fontWeight: "600", fontSize: "0.9rem", color: "#555" }}>Full Name</label>
               <input
                 type="text"
                 className="form-control"
-                id="fullname"
                 name="fullname"
                 value={formData.fullname || ""}
                 onChange={handleInputChange}
+                style={{ padding: "12px", borderRadius: "10px", backgroundColor: "#f8f9fa", border: "1px solid #eee" }}
               />
             </div>
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label">
-                Email
-              </label>
+            <div className="mb-4">
+              <label className="form-label" style={{ fontWeight: "600", fontSize: "0.9rem", color: "#555" }}>Email</label>
               <input
                 type="email"
                 className="form-control"
-                id="email"
                 name="email"
+                disabled
                 value={formData.email || ""}
                 onChange={handleInputChange}
+                style={{ padding: "12px", borderRadius: "10px", backgroundColor: "#f8f9fa", border: "1px solid #eee" }}
               />
             </div>
-            <div className="mb-3">
-              <label htmlFor="phonenumber" className="form-label">
-                Phone
-              </label>
+            <div className="mb-4">
+              <label className="form-label" style={{ fontWeight: "600", fontSize: "0.9rem", color: "#555" }}>Phone Number</label>
               <input
                 type="text"
                 className="form-control"
-                id="phonenumber"
                 name="phonenumber"
                 value={formData.phonenumber || ""}
                 onChange={handleInputChange}
+                style={{ padding: "12px", borderRadius: "10px", backgroundColor: "#f8f9fa", border: "1px solid #eee" }}
               />
             </div>
           </form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button
-            variant="secondary"
-            onClick={() => setIsEditModalOpen(false)}
-          >
-            Close
+        <Modal.Footer style={{ borderTop: "none", padding: "0 20px 20px" }}>
+          <Button variant="light" onClick={() => setIsEditModalOpen(false)} style={{ borderRadius: "10px", padding: "10px 20px", fontWeight: "600" }}>
+            Cancel
           </Button>
           <Button
-            variant="primary"
             onClick={saveUpdatedDetails}
             disabled={loading}
+            style={{ borderRadius: "10px", padding: "10px 25px", fontWeight: "600", background: "linear-gradient(135deg, #a8e063, #56ab2f)", border: "none" }}
           >
             {loading ? "Saving..." : "Save Changes"}
           </Button>
         </Modal.Footer>
       </Modal>
+      <br /><br /><br /><br />
     </div>
-    </>
   );
 };
 

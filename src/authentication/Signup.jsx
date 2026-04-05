@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { auth, db } from "../firebase"; // Import Firebase config
+import { auth, db } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import "react-toastify/dist/ReactToastify.css";
-import "./Signup.css";
+import "./AuthLayout.css";
 import { Link } from "react-router-dom";
-
+import { getFirebaseErrorMessage } from "../utils/firebaseErrors";
 
 const Signup = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -16,7 +16,7 @@ const Signup = () => {
     phonenumber: "",
     password: "",
   });
-  const [loading, setLoading] = useState(false); // State to toggle spinner
+  const [loading, setLoading] = useState(false);
 
   const inputs = [
     {
@@ -72,7 +72,7 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Start spinner
+    setLoading(true);
     try {
       const { email, password, fullname, phonenumber } = formData;
       const userCredential = await createUserWithEmailAndPassword(
@@ -82,7 +82,6 @@ const Signup = () => {
       );
       const userId = userCredential.user.uid;
 
-      // Save additional user data to Firestore
       await setDoc(doc(db, "users", userId), {
         fullname,
         email,
@@ -94,76 +93,75 @@ const Signup = () => {
       setFormData({ fullname: "", email: "", phonenumber: "", password: "" });
       setCurrentStep(0);
     } catch (error) {
-      toast.error(`Error: ${error.message}`);
+      toast.error(getFirebaseErrorMessage(error));
     } finally {
-      setLoading(false); // Stop spinner
+      setLoading(false);
     }
   };
 
   return (
-    <div className="signup-container">
-      <h1>
-        Welcome to <span>GroceryApp</span>
-      </h1>
-
+    <div className="auth-wrapper">
       <ToastContainer position="top-center" autoClose={3000} />
-      <div className="signup-card">
-        <h1>
-          <span>Create a New Account</span>
-        </h1>
-        <form onSubmit={handleSubmit}>
-          <div className="input-wrapper">
-            <input
-              type={inputs[currentStep].type}
-              name={inputs[currentStep].name}
-              value={formData[inputs[currentStep].name]}
-              onChange={handleChange}
-              placeholder={inputs[currentStep].placeholder}
-              autoFocus
-              required
-            />
-          </div>
-          <div className="actions">
-            {currentStep > 0 && (
-              <button
-                type="button"
-                onClick={handlePrevious}
-                className="action-btn prev-btn"
-              >
-                &#8592; Back
-              </button>
-            )}
-            {currentStep < inputs.length - 1 ? (
-              <button
-                type="button"
-                onClick={handleNext}
-                className="action-btn next-btn"
-              >
-                Next &#8594;
-              </button>
-            ) : (
-              <button
-                type="submit"
-                className="submit-btn"
-                disabled={loading} // Disable button while loading
-              >
-                {loading ? (
-                  <span className="spinner"></span>
-                ) : (
-                  "Register"
-                )}
-              </button>
-            )}
-          </div>
-        </form>
+      
+      <div className="auth-branding">
+        <h1>Join GroceryApp</h1>
+        <p>Your favorite local farm and market goods, delivered right to your doorstep.</p>
+      </div>
 
-        <p>
-          Already Have an Account? <Link to="/login">Login</Link>
-        </p>
-        <p>
-         <Link to="/forgot-password">Forgot Your Password?</Link>
-        </p>
+      <div className="auth-form-section">
+        <div className="auth-form-card">
+          <h2>Create Account</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="input-wrapper">
+              <input
+                type={inputs[currentStep].type}
+                name={inputs[currentStep].name}
+                value={formData[inputs[currentStep].name]}
+                onChange={handleChange}
+                placeholder={inputs[currentStep].placeholder}
+                autoFocus
+                required
+              />
+            </div>
+            <div className="actions">
+              {currentStep > 0 && (
+                <button
+                  type="button"
+                  onClick={handlePrevious}
+                  className="action-btn prev-btn"
+                >
+                  &#8592; Back
+                </button>
+              )}
+              {currentStep < inputs.length - 1 ? (
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  className="action-btn next-btn"
+                >
+                  Next &#8594;
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  className="submit-btn"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <span className="spinner"></span>
+                  ) : (
+                    "Register"
+                  )}
+                </button>
+              )}
+            </div>
+          </form>
 
+          <div className="auth-links">
+            <p>Already have an account? <Link to="/login">Login Here</Link></p>
+            <p>Want to sell with us? <Link to="/vendor-login">Vendor Registration</Link></p>
+          </div>
+        </div>
       </div>
     </div>
   );

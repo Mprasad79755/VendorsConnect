@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import "./header.css";
 import { Link } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const Header = () => {
   const [location, setLocation] = useState(null);
   const [error, setError] = useState(null);
+  const { currentUser, userRole } = useAuth();
 
   useEffect(() => {
     if (!navigator.geolocation) {
@@ -39,10 +41,20 @@ const Header = () => {
         `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`
       );
       const data = await response.json();
-      if (data.results.length > 0) {
+      if (data.results && data.results.length > 0) {
+        const result = data.results[0];
+        const components = result.components;
+        
+        // Try to construct a meaningful but short address
+        const address = result.formatted || 
+                       components.road || 
+                       components.suburb || 
+                       components.city || 
+                       "Current Location";
+
         setLocation((prev) => ({
           ...prev,
-          address: data.results[0].formatted,
+          address: address,
         }));
       } else {
         setError("Address not found.");
@@ -63,21 +75,31 @@ const Header = () => {
     <div className="top-navbar">
       {/* Left - User Location */}
       <div className="location-container">
-        <FaMapMarkerAlt className="icon-location" />
-        <span className="location-text">
-          {error
-            ? error
-            : location?.address
-            ? truncateText(location.address, 25)
-            : "Fetching location..."}
-        </span>
+        <div className="loc-dot-wrapper">
+          <FaMapMarkerAlt className="icon-location" />
+          <div className="loc-pulse" />
+        </div>
+        <div className="loc-text-group">
+          <span className="loc-label">Your Location</span>
+          <span className="location-text">
+            {error
+              ? error
+              : location?.address
+                ? truncateText(location.address, 30)
+                : "Detecting location..."}
+          </span>
+        </div>
       </div>
 
       {/* Right - Profile Icon */}
-      <Link to="/user/profile">
-      <div className="profile-icon">
-        <span className="initials">AB</span> {/* Placeholder for initials */}
-      </div>
+      <Link to="/user/profile" style={{ textDecoration: 'none' }}>
+        <div className="profile-wrapper">
+          <div className="profile-icon">
+            <span className="initials">
+              {currentUser?.displayName ? currentUser.displayName[0] : "U"}
+            </span>
+          </div>
+        </div>
       </Link>
     </div>
   );

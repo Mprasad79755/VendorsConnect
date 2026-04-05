@@ -1,0 +1,102 @@
+.location-picker-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(8px);
+  z-index: 3000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .location-picker-overlay { align-items: center; }
+}
+
+.location-picker-card {
+  width: 100%;
+  max-width: 500px;
+  background: white;
+  border-radius: 30px 30px 0 0;
+  padding: 24px;
+  box-shadow: 0 -20px 60px rgba(0,0,0,0.2);
+}
+
+@media (min-width: 768px) {
+  .location-picker-card { border-radius: 30px; }
+}
+
+.picker-header {
+  margin-bottom: 20px;
+}
+
+.picker-header h3 {
+  margin-bottom: 4px; font-weight: 800; font-size: 1.2rem;
+}
+
+.picker-header p {
+  font-size: 0.85rem; color: #666; margin: 0;
+}
+
+.picker-map-container {
+  height: 250px;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid #eee;
+}
+
+.current-loc-btn {
+  position: absolute;
+  bottom: 20px; right: 20px;
+  width: 44px; height: 44px;
+  background: white; border: none; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 1000; color: #43a047;
+}
+
+.picker-footer {
+  margin-top: 24px;
+}
+
+.resolved-address {
+  display: flex; gap: 12px; margin-bottom: 24px; background: #f8f9fa;
+  padding: 16px; border-radius: 16px; align-items: flex-start;
+}
+
+.resolved-address .icon {
+  margin-top: 4px; color: #43a047; font-size: 1.1rem;
+}
+
+.address-text label {
+  font-size: 0.7rem; font-weight: 800; color: #999; text-transform: uppercase;
+  margin-bottom: 2px; display: block;
+}
+
+.address-text p {
+  font-size: 0.85rem; font-weight: 600; color: #333; margin: 0;
+  line-height: 1.4;
+}
+
+.picker-actions {
+  display: flex; gap: 12px;
+}
+
+.btn-cancel-loc, .btn-confirm-loc {
+  flex: 1; padding: 14px; border-radius: 15px; border: none;
+  font-weight: 700; font-size: 0.9rem; display: flex; align-items: center;
+  justify-content: center; gap: 8px; transition: all 0.2s;
+}
+
+.btn-cancel-loc { background: #eee; color: #666; }
+.btn-confirm-loc { background: #43a047; color: white; }
+
+.btn-confirm-loc:active { transform: scale(0.95); }
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.animated.slide-up { animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); }

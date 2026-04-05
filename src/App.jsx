@@ -25,6 +25,11 @@ import VendorViewProfile from './customers/VendorProfile'
 import VendorProfileCreation from './authentication/VendorProfile'
 import Track from './customers/track'
 import OrderRequest from './vendors/OrderRequest';
+import Earnings from './vendors/Earnings';
+import Settings from './vendors/Settings';
+import Contact from './vendors/Contact';
+import ActiveOrderWidget from './customers/ActiveOrderWidget';
+import OrderDetails from './customers/OrderDetails';
 
 function App() {
 
@@ -40,6 +45,8 @@ function App() {
       <Route path="/signup" element={<Sc/>} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/vendor-login" element={<VendorProfileCreation/>} />
+      <Route path="/settings" element={<Settings />} />
+      <Route path="/contact" element={<Contact />} />
       
 
 
@@ -57,6 +64,7 @@ function App() {
         <Route path="profile" element={<VendorProfile/>} />
         <Route path="unauthorized" element={<VendorProfile/>} />
         <Route path="order-request" element={<OrderRequest/>} />
+        <Route path="earnings" element={<Earnings/>} />
 
 
 
@@ -66,7 +74,7 @@ function App() {
       {/* General user routes */}
       <Route
         path="/user/*"
-        element={<><UserHeader/><RoleBasedRoute allowedRoles={["User"]} /><Footer/></>}
+        element={<><UserHeader/><RoleBasedRoute allowedRoles={["User"]} /><ActiveOrderWidget/><Footer/></>}
       >
         <Route path="dashboard" element={<><UserDashboard/></>} />
         <Route path="profile" element={<UserProfile/>} />
@@ -76,6 +84,7 @@ function App() {
         <Route path="class" element={<Class/>} />
         <Route path="vendor-profile/:vendorId" element={<VendorViewProfile/>} />
         <Route path="track" element={<Track/>} />
+        <Route path="orders/:orderId" element={<OrderDetails/>} />
 
 
 

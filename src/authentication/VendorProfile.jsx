@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { db, auth } from "../firebase"; // Import Firebase config
+import { db, auth } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
-import { createUserWithEmailAndPassword } from "firebase/auth"; // Import the sign-in method
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import "react-toastify/dist/ReactToastify.css";
-import "./signup.css";
-import { useNavigate } from "react-router-dom";
+import "./AuthLayout.css";
+import { useNavigate, Link } from "react-router-dom";
+import { getFirebaseErrorMessage } from "../utils/firebaseErrors";
 
 const VendorProfile = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -81,7 +82,6 @@ const VendorProfile = () => {
       type: "password",
       validate: (value) => value.length >= 6,
       error: "Password must be at least 6 characters long.",
-    
     },
   ];
 
@@ -112,7 +112,6 @@ const VendorProfile = () => {
     try {
       const { name, email, phone, type, shopName, timings, additionalDetails, password } = formData;
 
-      // Sign in with email and password
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -120,7 +119,6 @@ const VendorProfile = () => {
       );
       const uid = userCredential.user.uid;
 
-      // Save vendor data to Firestore with the uid as the document ID
       await setDoc(doc(db, "vendors", uid), {
         uid,
         name,
@@ -147,86 +145,93 @@ const VendorProfile = () => {
       navigate("/vendor/dashboard")
       setCurrentStep(0);
     } catch (error) {
-      toast.error(`Error: ${error.message}`);
+      toast.error(getFirebaseErrorMessage(error));
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="vendor-profile-container">
-      <h1>
-        Vendor <span>Profile</span>
-      </h1>
-
+    <div className="auth-wrapper">
       <ToastContainer position="top-center" autoClose={3000} />
-      <div className="vendor-profile-card">
-        <h1>
-          <span>Create Your Vendor Profile</span>
-        </h1>
-        <form onSubmit={handleSubmit}>
-          <div className="input-wrapper">
-            {inputs[currentStep].type === "select" ? (
-              <select
-                name={inputs[currentStep].name}
-                value={formData[inputs[currentStep].name]}
-                onChange={handleChange}
-              >
-                <option value="">-- Select --</option>
-                {inputs[currentStep].options.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            ) : inputs[currentStep].type === "textarea" ? (
-              <textarea
-                name={inputs[currentStep].name}
-                value={formData[inputs[currentStep].name]}
-                onChange={handleChange}
-                placeholder={inputs[currentStep].placeholder}
-              />
-            ) : (
-              <input
-                type={inputs[currentStep].type}
-                name={inputs[currentStep].name}
-                value={formData[inputs[currentStep].name]}
-                onChange={handleChange}
-                placeholder={inputs[currentStep].placeholder}
-                autoFocus
-                required
-              />
-            )}
+      
+      <div className="auth-branding">
+        <h1>Partner With Us</h1>
+        <p>Join GroceryApp as a vendor. Reach more customers and grow your business today!</p>
+      </div>
+
+      <div className="auth-form-section">
+        <div className="auth-form-card">
+          <h2>Vendor Registration</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="input-wrapper">
+              {inputs[currentStep].type === "select" ? (
+                <select
+                  name={inputs[currentStep].name}
+                  value={formData[inputs[currentStep].name]}
+                  onChange={handleChange}
+                >
+                  <option value="">-- Select --</option>
+                  {inputs[currentStep].options.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              ) : inputs[currentStep].type === "textarea" ? (
+                <textarea
+                  name={inputs[currentStep].name}
+                  value={formData[inputs[currentStep].name]}
+                  onChange={handleChange}
+                  placeholder={inputs[currentStep].placeholder}
+                />
+              ) : (
+                <input
+                  type={inputs[currentStep].type}
+                  name={inputs[currentStep].name}
+                  value={formData[inputs[currentStep].name]}
+                  onChange={handleChange}
+                  placeholder={inputs[currentStep].placeholder}
+                  autoFocus
+                  required
+                />
+              )}
+            </div>
+            <div className="actions">
+              {currentStep > 0 && (
+                <button
+                  type="button"
+                  onClick={handlePrevious}
+                  className="action-btn prev-btn"
+                >
+                  &#8592; Back
+                </button>
+              )}
+              {currentStep < inputs.length - 1 ? (
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  className="action-btn next-btn"
+                >
+                  Next &#8594;
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  className="submit-btn"
+                  disabled={loading}
+                >
+                  {loading ? <span className="spinner"></span> : "Submit"}
+                </button>
+              )}
+            </div>
+          </form>
+
+          <div className="auth-links">
+            <p>Already a vendor/customer? <Link to="/login">Login</Link></p>
+            <p>Customer registration? <Link to="/signup">Signup Here</Link></p>
           </div>
-          <div className="actions">
-            {currentStep > 0 && (
-              <button
-                type="button"
-                onClick={handlePrevious}
-                className="action-btn prev-btn"
-              >
-                &#8592; Back
-              </button>
-            )}
-            {currentStep < inputs.length - 1 ? (
-              <button
-                type="button"
-                onClick={handleNext}
-                className="action-btn next-btn"
-              >
-                Next &#8594;
-              </button>
-            ) : (
-              <button
-                type="submit"
-                className="submit-btn"
-                disabled={loading}
-              >
-                {loading ? <span className="spinner"></span> : "Submit"}
-              </button>
-            )}
-          </div>
-        </form>
+        </div>
       </div>
     </div>
   );

@@ -1,25 +1,26 @@
 import firebase from 'firebase/compat/app'
-import {getAuth} from 'firebase/auth'
+import { getAuth } from 'firebase/auth'
 import { getFirestore } from "firebase/firestore";
 
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAvS32zw7t1EimMTMEFG-p30juAm1Knv2k",
-  authDomain: "vendors-connect.firebaseapp.com",
-  projectId: "vendors-connect",
-  storageBucket: "vendors-connect.firebasestorage.app",
-  messagingSenderId: "955632958049",
-  appId: "1:955632958049:web:9499702969c3caf37b4820"
-  };
-
-  
-
-  const app = firebase.initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+  apiKey: "AIzaSyAGRtBunWs7sfp0R5tuOT--g5RECYFzjFI",
+  authDomain: "vendorgo-74994.firebaseapp.com",
+  projectId: "vendorgo-74994",
+  storageBucket: "vendorgo-74994.firebasestorage.app",
+  messagingSenderId: "757829392579",
+  appId: "1:757829392579:web:bb4625e8edffef90376a76",
+  measurementId: "G-3DMV5S46E0"
+};
 
 
 
- const auth = getAuth(app)
+const app = firebase.initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
- export {app , auth , db}
+
+
+const auth = getAuth(app)
+
+export { app, auth, db }

@@ -1,0 +1,200 @@
+.map-page-wrapper {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 1001;
+  background: white;
+}
+
+.leaflet-full-container {
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Header Overlay ── */
+.map-header-overlay {
+  position: absolute;
+  top: 20px; left: 20px; right: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 14px 24px;
+  border-radius: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  z-index: 2005;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+.header-left { display: flex; align-items: center; gap: 12px; }
+.header-right { display: flex; align-items: center; }
+
+.map-back-btn {
+  width: 40px; height: 40px;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+}
+
+.map-header-title h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.live-dot-mini {
+  display: inline-block;
+  width: 8px; height: 8px;
+  background: #a8e063;
+  border-radius: 50%;
+  margin-right: 4px;
+  animation: pulse 1.5s infinite;
+}
+
+/* ── Custom Markers ── */
+.marker-pulse-wrapper {
+  position: relative;
+  width: 40px; height: 40px;
+}
+
+.marker-pin-svg {
+  width: 100%; height: 100%;
+  background: var(--primary-green);
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  display: flex; align-items: center; justify-content: center;
+  border: 2px solid white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 2;
+  position: relative;
+}
+
+.marker-pin-svg svg {
+  transform: rotate(45deg);
+}
+
+.marker-pulse {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px; height: 20px;
+  background: rgba(67, 160, 71, 0.4);
+  border-radius: 50%;
+  animation: ripple 2s ease infinite;
+  z-index: 1;
+}
+
+.user-ping {
+  width: 16px; height: 16px;
+  background: #2196f3;
+  border: 3px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(33,150,243,0.5);
+}
+
+/* ── Premium Popup ── */
+.premium-map-popup .leaflet-popup-content-wrapper {
+  border-radius: 20px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.premium-map-popup .leaflet-popup-content {
+  margin: 0;
+  width: 220px !important;
+}
+
+.shop-popup-card img {
+  width: 100%; height: 100px;
+  object-fit: cover;
+}
+
+.popup-info {
+  padding: 12px;
+}
+
+.popup-info h4 {
+  margin: 0 0 4px;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.popup-category {
+  font-size: 0.75rem;
+  color: #888;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.btn-go-profile {
+  width: 100%;
+  background: #43a047;
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  gap: 6px;
+}
+
+/* ── Bottom Drawer ── */
+.map-bottom-drawer {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: white;
+  border-radius: 30px 30px 0 0;
+  padding: 12px 20px 40px;
+  z-index: 2000;
+  box-shadow: 0 -10px 40px rgba(0,0,0,0.1);
+}
+
+.drawer-handle {
+  width: 40px; height: 4px;
+  background: #eee;
+  border-radius: 2px;
+  margin: 0 auto 16px;
+}
+
+.drawer-content h4 {
+  margin-bottom: 16px;
+  font-weight: 800;
+}
+
+.drawer-scroll {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.drawer-shop-item {
+  flex-shrink: 0;
+  width: 140px;
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.item-img-box img {
+  width: 50px; height: 50px;
+  border-radius: 15px;
+  object-fit: cover;
+  margin-bottom: 8px;
+}
+
+.item-text h5 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.item-text p {
+  font-size: 0.7rem;
+  color: #888;
+  margin: 2px 0 8px;
+}

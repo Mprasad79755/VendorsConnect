@@ -1,114 +1,345 @@
-/* Ensure full height for the page */
+.product-manager-container {
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Poppins', sans-serif;
+  padding-top: 100px;
+}
 
-  
-  /* Ensure the container takes full height and is scrollable */
-  .product-manager-container {
-    display: flex;
+/* ── Category filter chips ── */
+.cat-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.cat-chip {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid #e0e0e0;
+  background: white;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #555;
+}
+
+.cat-chip:hover {
+  border-color: #56ab2f;
+  color: #56ab2f;
+}
+
+.cat-chip-active {
+  background: #56ab2f;
+  border-color: #56ab2f;
+  color: white !important;
+}
+
+/* ── Stock Toggle ── */
+.stock-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.stock-in {
+  background: #ebfbee;
+  color: #2f9e44;
+}
+
+.stock-out {
+  background: #fff5f5;
+  color: #c92a2a;
+}
+
+/* ── Out-of-stock card state ── */
+.out-of-stock {
+  opacity: 0.75;
+}
+
+.oos-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.6);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  padding: 5px 12px;
+  border-radius: 6px;
+}
+
+/* ── Quantity chip on card ── */
+.qty-chip {
+  display: inline-block;
+  background: #f1f3f5;
+  color: #495057;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-left: 8px;
+}
+
+/* ── Image search button in form ── */
+.img-search-btn {
+  background: #56ab2f;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.img-search-btn:hover { background: #4a9428; }
+.img-search-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+
+/* Header Section */
+.header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.header-flex h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+/* Grid Layout */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 100px 20px;
+  background: white;
+  border-radius: 20px;
+  color: #888;
+  border: 2px dashed #eee;
+}
+
+/* Enhanced Product Card */
+.product-card-enhanced {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+  border: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card-enhanced:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+  border-color: #56ab2f;
+}
+
+.image-wrapper {
+  position: relative;
+  height: 200px;
+  width: 100%;
+  background: #f8f9fa;
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.category-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #56ab2f;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.card-info {
+  padding: 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-info h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.price-tag {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #56ab2f;
+  margin-bottom: 20px;
+}
+
+.card-controls {
+  margin-top: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.card-controls button {
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: opacity 0.2s;
+}
+
+.edit-btn {
+  background: #f0faf0;
+  color: #56ab2f;
+}
+
+.delete-btn {
+  background: #fff0f0;
+  color: #ff4b2b;
+}
+
+.edit-btn:hover, .delete-btn:hover {
+  opacity: 0.8;
+}
+
+/* FAB Button */
+.fab-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a8e063, #56ab2f);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  border: none;
+  box-shadow: 0 6px 20px rgba(86, 171, 47, 0.4);
+  z-index: 100;
+  transition: transform 0.2s;
+}
+
+.fab-button:hover {
+  transform: scale(1.1);
+}
+
+/* Modal Styling Improvements */
+.card-input {
+  border-radius: 12px !important;
+  border: 1px solid #eee !important;
+  background: #f8f9fa !important;
+}
+
+.card-input:focus {
+  border-color: #56ab2f !important;
+  box-shadow: none !important;
+}
+
+.input-action-btn {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white;
+  border-radius: 8px;
+  padding: 5px 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  color: #56ab2f;
+  z-index: 5;
+}
+
+.image-preview {
+  width: 100%;
+  height: 180px;
+  background: #f8f9fa;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  border: 2px dashed #eee;
+}
+
+.image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholder-image {
+  color: #aaa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.image-loader {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(255,255,255,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #56ab2f;
+  font-weight: 600;
+}
+
+@media (max-width: 576px) {
+  .header-flex {
     flex-direction: column;
-    padding: 20px;
-    background-color: #fff;
-    position: relative;
-    height: 100%; /* Full height */
+    align-items: flex-start;
   }
-  
-  /* Title and Header */
-  h1 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    text-align: center;
-    color: #32cd32;
-    margin-bottom: 20px;
-  }
-  
-  /* Product List - make it scrollable */
-  .product-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-    overflow-y: auto; /* Allow scrolling */
-    flex-grow: 1; /* Take up available space */
-    max-height: 70vh; /* Limit height */
-  }
-  
-  /* Product Cards styling */
-  .product-card {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-  }
-  
-  .product-image img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-  }
-  
-  .product-details {
-    padding: 15px;
-  }
-  
-  .product-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-  }
-  
-  /* Floating action button styling */
-  .btn-floating {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #32cd32;
-    color: white;
-    font-size: 24px;
-    padding: 15px;
-    border-radius: 50%;
-    border: none;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Form Popup styling */
-  .form-popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-    overflow-y: auto; /* Allows scrolling within the form */
-  }
-  
-  .form-card {
-    background-color: #fff;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 600px;
-    padding: 20px;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-control {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  
-  .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 24px;
-    color: #333;
-  }
-  
+}

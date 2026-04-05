@@ -1,9 +1,12 @@
 /* Reset styles for mobile-first design */
+* {
+  box-sizing: border-box;
+}
+
 body, html {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  margin: 0;
+  padding: 0;
+}
   
   /* Top Navbar Container */
   .top-navbar {
