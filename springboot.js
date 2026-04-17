@@ -50,26 +50,26 @@ logs.forEach((log) => {
 
 setTimeout(() => {
   let firstRequest = true;
-  
+
   http.createServer((req, res) => {
     const timestamp = getFormattedDate();
-    
+
     if (firstRequest) {
       console.log(`${timestamp}  INFO ${pid} --- [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'`);
       console.log(`${timestamp}  INFO ${pid} --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'`);
       console.log(`${timestamp}  INFO ${pid} --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms`);
       firstRequest = false;
     }
-    
+
     console.log(`${timestamp}  INFO ${pid} --- [nio-8080-exec-1] com.example.demo.DemoController          : Received request: ${req.method} ${req.url}`);
 
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ 
+    res.end(JSON.stringify({
       timestamp: new Date().toISOString(),
       status: 200,
       message: "Success",
       data: {
-        info: "Dummy Spring Boot backend is actively running!"
+        info: " Spring Boot backend is actively running!"
       }
     }));
   }).listen(8080, () => {
